@@ -112,7 +112,7 @@ def _getMovies ( ):
     _files = _json_pl_response.get( "result", {} ).get( "files" )
     if _files:
         for _item in _files:
-            if xbmc.abortRequested:
+            if xbmc.Monitor().abortRequested():
                 break
             if _item['filetype'] == 'directory':
                 _json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params": {"directory": "%s", "media": "video", "properties": ["title", "originaltitle", "playcount", "year", "genre", "studio", "country", "tagline", "plot", "runtime", "file", "plotoutline", "lastplayed", "trailer", "rating", "resume", "art", "streamdetails", "mpaa", "director", "dateadded"]}, "id": 1}' %(_item['file']))
@@ -123,7 +123,7 @@ def _getMovies ( ):
                     log("[RandomAndLastItems] ## MOVIESET %s COULD NOT BE LOADED ##" %(_item['file']))
                     log("[RandomAndLastItems] JSON RESULT %s" %_json_set_response)
                 for _movie in _movies:
-                    if xbmc.abortRequested:
+                    if xbmc.Monitor().abortRequested():
                         break
                     _playcount = _movie['playcount']
                     if RESUME == 'True':
@@ -159,7 +159,7 @@ def _getMovies ( ):
         else:
             random.shuffle(_result, random.random)
         for _movie in _result:
-            if xbmc.abortRequested or _count == LIMIT:
+            if xbmc.Monitor().abortRequested() or _count == LIMIT:
                 break
             _count += 1
             _json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieDetails", "params": {"properties": ["streamdetails"], "movieid":%s }, "id": 1}' %(_movie['id']))
@@ -256,7 +256,7 @@ def _getMusicVideosFromPlaylist ( ):
     _files = _json_pl_response.get( "result", {} ).get( "files" )
     if _files:
         for _item in _files:
-            if xbmc.abortRequested:
+            if xbmc.Monitor().abortRequested():
                 break
             _playcount = _item['playcount']
             if RESUME == 'True':
@@ -279,7 +279,7 @@ def _getMusicVideosFromPlaylist ( ):
         else:
             random.shuffle(_result, random.random)
         for _musicvid in _result:
-            if xbmc.abortRequested or _count == LIMIT:
+            if xbmc.Monitor().abortRequested() or _count == LIMIT:
                 break
             _count += 1
             _json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.GetMusicVideoDetails", "params": {"properties": ["streamdetails"], "musicvideoid":%s }, "id": 1}' %(_musicvid['id']))
@@ -373,7 +373,7 @@ def _getEpisodesFromPlaylist ( ):
     _files = _json_pl_response.get( "result", {} ).get( "files" )
     if _files:
         for _file in _files:
-            if xbmc.abortRequested:
+            if xbmc.Monitor().abortRequested():
                 break
             if _file['type'] == 'tvshow':
                 _tvshows += 1
@@ -384,7 +384,7 @@ def _getEpisodesFromPlaylist ( ):
                 _episodes = _json_response.get( "result", {} ).get( "episodes" )
                 if _episodes:
                     for _episode in _episodes:
-                        if xbmc.abortRequested:
+                        if xbmc.Monitor().abortRequested():
                             break
                         # Add TV Show fanart and thumbnail for each episode
                         art = _episode['art']
@@ -416,7 +416,7 @@ def _getEpisodesFromPlaylist ( ):
         else:
             random.shuffle(_result, random.random)
         for _episode in _result:
-            if xbmc.abortRequested or _count == LIMIT:
+            if xbmc.Monitor().abortRequested() or _count == LIMIT:
                 break
             _count += 1
             '''
@@ -456,7 +456,7 @@ def _getEpisodes ( ):
     _episodes = _json_pl_response.get( "result", {} ).get( "episodes" )
     if _episodes:
         for _item in _episodes:
-            if xbmc.abortRequested:
+            if xbmc.Monitor().abortRequested():
                 break
             _id = _item['tvshowid']
             if _id not in _tvshowid:
@@ -475,7 +475,7 @@ def _getEpisodes ( ):
         else:
             random.shuffle(_result, random.random)
         for _episode in _result:
-            if xbmc.abortRequested or _count == LIMIT:
+            if xbmc.Monitor().abortRequested() or _count == LIMIT:
                 break
             _count += 1
             _setEpisodeProperties ( _episode, _count )
@@ -520,7 +520,7 @@ def _getAlbumsFromPlaylist ( ):
     _files = _json_pl_response.get( "result", {} ).get( "files" )
     if _files:
         for _file in _files:
-            if xbmc.abortRequested:
+            if xbmc.Monitor().abortRequested():
                 break
             if _file['type'] == 'album':
                 _albums.append(_file)
@@ -558,7 +558,7 @@ def _getAlbumsFromPlaylist ( ):
         '''
         _count = 0
         for _album in _albums:
-            if xbmc.abortRequested or _count == LIMIT:
+            if xbmc.Monitor().abortRequested() or _count == LIMIT:
                 break
             _count += 1
             _albumid = _album['id'];
