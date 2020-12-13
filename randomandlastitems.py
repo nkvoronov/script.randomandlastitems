@@ -1,4 +1,4 @@
-import xbmc, xbmcgui, xbmcaddon
+import xbmc, xbmcvfs, xbmcgui, xbmcaddon
 import re, sys, os, time
 import random
 import urllib
@@ -39,7 +39,7 @@ def _getPlaylistType ():
     global REVERSE
     global SORTBY
     global TYPE
-    _doc = parse(xbmc.translatePath(PLAYLIST))
+    _doc = parse(xbmcvfs.translatePath(PLAYLIST))
     _type = _doc.getElementsByTagName('smartplaylist')[0].attributes.item(0).value
     if _type == 'movies':
        TYPE = 'Movie'
